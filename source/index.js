@@ -3,10 +3,11 @@ import dg from 'debug';
 
 // Instruments
 import { app } from './server';
+import { getPort } from './helpers';
 
-const port = process.env.PORT || 3000;
+const port = getPort();
 const debugSrv = dg('server:main');
 
 app.listen(port, () => {
-    debugSrv(`server API is up on port ${port}`);
+    debugSrv(`Server API is up on port ${port}`);
 });
