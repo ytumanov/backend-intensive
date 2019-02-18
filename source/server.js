@@ -1,4 +1,6 @@
 // Core
 import express from 'express';
 
-export const app = express();
+const app = express();
+
+export { app };

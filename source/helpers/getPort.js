@@ -5,7 +5,9 @@ export const getPort = () => {
         throw new Error('Environment variable PORT should be specified');
     }
 
-    if (!/^[3-9]{1}[0-9]{3}$/.test(PORT)) {
+    const isValid = /^[3-9]{1}[0-9]{3}$/.test(PORT);
+
+    if (!isValid) {
         throw new Error('Environment variable PORT should a number and be between 3000 and 9999');
     }
 
