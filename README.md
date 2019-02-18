@@ -1,3 +1,3 @@
-# Backend Online
+# Backend Intensive
 
-Boilerplate repository for Lectrum Backend Online Course aka LBOC :)
+Boilerplate repository for Lectrum Backend Intensive Course.
