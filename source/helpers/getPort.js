@@ -5,8 +5,8 @@ export const getPort = () => {
         throw new Error('Environment variable PORT should be specified');
     }
 
-    if (isNaN(PORT)) {
-        throw new Error('Environment variable PORT should a number');
+    if (!/^[3-9]{1}[0-9]{3}$/.test(PORT)) {
+        throw new Error('Environment variable PORT should a number and be between 3000 and 9999');
     }
 
     return PORT;
