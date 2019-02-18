@@ -1,3 +1,3 @@
 # Backend Intensive
 
-Boilerplate repository for Lectrum Backend Intensive Course.
+Boilerplate repository for Lectrum Backend Intensive.
