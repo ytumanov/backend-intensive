@@ -6,19 +6,21 @@ import * as classes from './';
 import * as classId from './class';
 import * as gradebook from './gradebook';
 
+import { checkPass } from '../../helpers';
+
 const route = express.Router();
 
 route.get('/', classes.get);
-route.post('/', classes.post);
+route.post('/', [ checkPass() ], classes.post);
 
-route.get('/:classId', classId.get);
-route.post('/:classId', classId.post);
-route.put('/:classId', classId.put);
-route.delete('/:classId', classId.remove);
+route.get('/:classId', [ checkPass() ], classId.get);
+route.post('/:classId', [ checkPass() ], classId.post);
+route.put('/:classId', [ checkPass() ], classId.put);
+route.delete('/:classId', [ checkPass() ], classId.remove);
 
-route.get('/:classId/gradebook', gradebook.get);
-route.post('/:classId/gradebook', gradebook.post);
-route.put('/:classId/gradebook', gradebook.put);
-route.delete('/:classId/gradebook', gradebook.remove);
+route.get('/:classId/gradebook', [ checkPass() ], gradebook.get);
+route.post('/:classId/gradebook', [ checkPass() ], gradebook.post);
+route.put('/:classId/gradebook', [ checkPass() ], gradebook.put);
+route.delete('/:classId/gradebook', [ checkPass() ], gradebook.remove);
 
 export { route as classes };
