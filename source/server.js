@@ -1,15 +1,21 @@
 // Core
 import express from 'express';
 
-// Instruments
-import { teachersRoute, pupilsRoute, parentsRoute, classesRoute, subjectsRoute } from './routes';
+// Routes
+import * as domains from './domains';
 
 const app = express();
 
-app.use('/teachers', teachersRoute);
-app.use('/pupils', pupilsRoute);
-app.use('/parents', parentsRoute);
-app.use('/classes', classesRoute);
-app.use('/subjects', subjectsRoute);
+app.use(
+    express.json({
+        limit: '10kb',
+    }),
+);
+
+app.use('/api/teachers', domains.teachers);
+app.use('/api/pupils', domains.pupils);
+app.use('/api/parents', domains.parents);
+app.use('/api/classes', domains.classes);
+app.use('/api/subjects', domains.subjects);
 
 export { app };
