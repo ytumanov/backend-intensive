@@ -8,10 +8,6 @@ export const checkPass = () => (req, res, next) => {
 
     const expectedPassword = getPassword();
 
-    //todo remove debug with password
-    debug(`expectedPassword - ${expectedPassword}`);
-    debug(`receivedPassword - ${req.headers.authorization}`);
-
     if (req.headers.authorization === expectedPassword) {
         next();
     } else {
