@@ -3,7 +3,9 @@ import express from 'express';
 
 // Routes
 import * as domains from './domains';
-import { logger } from './helpers';
+
+// Instruments
+import { devLogger, requireJsonContent } from './helpers';
 
 const app = express();
 
@@ -13,10 +15,22 @@ app.use(
     }),
 );
 
-app.use('/api/teachers', [ logger() ], domains.teachers);
-app.use('/api/pupils', [ logger() ], domains.pupils);
-app.use('/api/parents', [ logger() ], domains.parents);
-app.use('/api/classes', [ logger() ], domains.classes);
-app.use('/api/subjects', [ logger() ], domains.subjects);
+app.use(requireJsonContent);
+
+if (process.env.NODE_ENV === 'development') {
+    app.use((req, res, next) => {
+        const body
+            = req.method === 'GET' ? 'Body not supported for GET' : JSON.stringify(req.body, null, 2);
+
+        devLogger.debug(`${req.method}\n${body}`);
+        next();
+    });
+}
+
+app.use('/api/teachers', domains.teachers);
+app.use('/api/pupils', domains.pupils);
+app.use('/api/parents', domains.parents);
+app.use('/api/classes', domains.classes);
+app.use('/api/subjects', domains.subjects);
 
 export { app };
