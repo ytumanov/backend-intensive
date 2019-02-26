@@ -1,4 +1,5 @@
 import Ajv from 'ajv';
+import { ValidationError } from '../helpers';
 
 export const validator = (schema) => (req, res, next) => {
     const ajv = new Ajv({ allErrors: true });
@@ -8,6 +9,8 @@ export const validator = (schema) => (req, res, next) => {
     if (valid) {
         next();
     } else {
-        res.status(400).json({ data: validate.errors.map(({ message }) => message) });
+        const errorMessages = validate.errors.map(({ message }) => message);
+        const error = new ValidationError(`${req.method}: ${req.originalUrl} ${errorMessages} ${JSON.stringify(req.body)}`, 400);
+        next(error);
     }
 };

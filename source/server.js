@@ -5,7 +5,7 @@ import express from 'express';
 import * as domains from './domains';
 
 // Instruments
-import { devLogger, requireJsonContent } from './helpers';
+import { devLogger, requireJsonContent, errorLogger, notFoundLogger, validationLogger, NotFoundError } from './helpers';
 
 const app = express();
 
@@ -32,5 +32,26 @@ app.use('/api/pupils', domains.pupils);
 app.use('/api/parents', domains.parents);
 app.use('/api/classes', domains.classes);
 app.use('/api/subjects', domains.subjects);
+
+app.use('*', (req, res, next) => {
+    const error = new NotFoundError(`${req.method}: ${req.originalUrl}`, 404);
+    next(error);
+});
+
+// eslint-disable-next-line no-unused-vars
+app.use((error, req, res, next) => {
+    const statusCode = error.statusCode ? error.statusCode : 500;
+
+    if (process.env.NODE_ENV !== 'test') {
+        if (error.name === 'NotFoundError') {
+            notFoundLogger.error(error.message);
+        } else if (error.name === 'ValidationError') {
+            validationLogger.error(error.message);
+        }   else {
+            errorLogger.error(`${error.name}: ${error.message} via ${req.method}`);
+        }
+    }
+    res.status(statusCode).json({ message: error.message });
+});
 
 export { app };
