@@ -1,13 +1,15 @@
 import { getPassword } from './getPassword';
+import jwt from 'jsonwebtoken';
 
 const password = getPassword();
 
 export const authenticate = (req, res, next) => {
     const { authorization } = req.headers;
 
-    if (authorization === password) {
+    try {
+        jwt.verify(authorization, password);
         next();
-    } else {
-        res.status(401).json({ message: 'authentication credentials are not valid' });
+    } catch ({ message }) {
+        res.status(401).json({ message: 'authentication credentials are not valid'});
     }
 };
