@@ -2,7 +2,7 @@
 import debug from 'debug';
 import jwt from 'jsonwebtoken';
 
-const options = { expiresIn: '60s' };
+const options = { expiresIn: '60s'};
 
 export const post = (req, res) => {
     debug(`${req.method} — ${req.originalUrl}`);
