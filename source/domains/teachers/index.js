@@ -17,10 +17,10 @@ export const get = (req, res) => {
 
 export const post = (req, res) => {
     debug(`${req.method} — ${req.originalUrl}`);
-    throw new Error('Error is here!');
 
     try {
         const data = [];
+
         res.status(200).json({ data });
     } catch (error) {
         res.status(400).json({ message: error.message });
