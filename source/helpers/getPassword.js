@@ -1,15 +1,18 @@
+import { ValidationError } from './errors';
+
 export const getPassword = () => {
     const { PASSWORD } = process.env;
 
     if (!PASSWORD) {
-        throw new Error('Environment variable PORT should be specified');
+        throw new ValidationError('Environment variable PORT should be specified', 400);
     }
 
     const isValid = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/.test(PASSWORD);
 
     if (!isValid) {
-        throw new Error(
+        throw new ValidationError(
             'Environment variable PASSWORD should have a minimum eight characters, at least one letter, one number and one special character',
+            400,
         );
     }
 
