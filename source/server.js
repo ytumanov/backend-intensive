@@ -1,5 +1,6 @@
 // Core
 import express from 'express';
+import session from 'express-session';
 
 // Routes
 import * as domains from './domains';
@@ -15,6 +16,18 @@ import {
 } from './helpers';
 
 const app = express();
+
+const sessionOptions = {
+    key:               'user', // cookie name
+    secret:            'your_strong_password', // change to your password
+    resave:            false, // disable session resave
+    rolling:           true, // reset max age on every use
+    saveUninitialized: false,
+    cookie:            {
+        httpOnly: true,
+        maxAge:   10000,
+    },
+};
 
 app.use(
     express.json({
@@ -33,6 +46,8 @@ if (process.env.NODE_ENV === 'development') {
         next();
     });
 }
+
+app.use(session(sessionOptions));
 
 app.use('/api/auth/login', domains.login);
 app.use('/api/teachers', domains.teachers);
