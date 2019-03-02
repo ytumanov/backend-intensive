@@ -1,5 +1,8 @@
 // Core
 import express from 'express';
+import passport from 'passport';
+import passportJWT from 'passport-jwt';
+import { getPassword } from './helpers/getPassword';
 
 // Routes
 import * as domains from './domains';
@@ -15,6 +18,18 @@ import {
 } from './helpers';
 
 const app = express();
+
+const ExtractJWT = passportJWT.ExtractJwt;
+const JWTStrategy   = passportJWT.Strategy;
+
+passport.use(new JWTStrategy({
+    jwtFromRequest: ExtractJWT.fromHeader('authorization'),
+    secretOrKey:    getPassword(),
+},
+function (jwtPayload, cb) {
+    //jwtPayload is object from JWT - { email: 'jdoe@email.com', iat: 1551565570, exp: 1551565630 }
+    return cb(null, jwtPayload);
+}));
 
 app.use(
     express.json({

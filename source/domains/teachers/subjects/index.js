@@ -5,6 +5,7 @@ const debug = dg('router:teachers:subjects');
 
 export const get = (req, res) => {
     debug(`${req.method} — ${req.originalUrl}`);
+    //req.user comes from passport-jwt payload
 
     try {
         const data = [];
