@@ -1,8 +1,8 @@
 // Core
 import express from 'express';
 import passport from 'passport';
-import passportJWT from 'passport-jwt';
-import { getPassword } from './helpers/getPassword';
+import session from 'express-session';
+import passportGithub from 'passport-github2';
 
 // Routes
 import * as domains from './domains';
@@ -15,29 +15,41 @@ import {
     validationLogger,
     requireJsonContent,
     NotFoundError,
+    getGithubKeys,
 } from './helpers';
 
+const { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, SECRET_SESSION } = getGithubKeys();
 const app = express();
+const GitHubStrategy = passportGithub.Strategy;
 
-const ExtractJWT = passportJWT.ExtractJwt;
-const JWTStrategy   = passportJWT.Strategy;
+//app.use(requireJsonContent);
+app.use(session({secret: SECRET_SESSION}));
+app.use(passport.initialize());
+app.use(passport.session());
 
-passport.use(new JWTStrategy({
-    jwtFromRequest: ExtractJWT.fromHeader('authorization'),
-    secretOrKey:    getPassword(),
+passport.serializeUser(function(user, done) {
+    done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+    done(null, obj);
+});
+
+
+// Use the GitHubStrategy within Passport.
+//   Strategies in Passport require a `verify` function, which accept
+//   credentials (in this case, an accessToken, refreshToken, and GitHub
+//   profile), and invoke a callback with a user object.
+passport.use(new GitHubStrategy({
+    clientID:     GITHUB_CLIENT_ID,
+    clientSecret: GITHUB_CLIENT_SECRET,
+    callbackURL:  'http://localhost:3000/api/auth/github/callback',
 },
-function (jwtPayload, cb) {
-    //jwtPayload is object from JWT - { email: 'jdoe@email.com', iat: 1551565570, exp: 1551565630 }
-    return cb(null, jwtPayload);
+function(accessToken, refreshToken, profile, done) {
+    process.nextTick(function () {
+        return done(null, profile);
+    });
 }));
-
-app.use(
-    express.json({
-        limit: '10kb',
-    }),
-);
-
-app.use(requireJsonContent);
 
 if (process.env.NODE_ENV === 'development') {
     app.use((req, res, next) => {
@@ -49,7 +61,7 @@ if (process.env.NODE_ENV === 'development') {
     });
 }
 
-app.use('/api/auth/login', domains.login);
+app.use('/api/auth/github', domains.github);
 app.use('/api/teachers', domains.teachers);
 app.use('/api/pupils', domains.pupils);
 app.use('/api/parents', domains.parents);
