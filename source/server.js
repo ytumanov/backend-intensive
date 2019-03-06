@@ -1,7 +1,7 @@
 // Core
 import express from 'express';
 import session from 'express-session';
-import cookieParser from 'cookie-parser';
+import { Storage } from './helpers/storage';
 
 // Routes
 import * as domains from './domains';
@@ -29,6 +29,7 @@ const sessionOptions = {
         httpOnly: true,
         maxAge:   15 * 60 * 1000,
     },
+    store: new Storage(),
 };
 
 app.use(
