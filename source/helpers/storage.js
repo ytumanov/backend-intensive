@@ -7,7 +7,6 @@ export class Storage extends Store {
         this.sessions = [];
     }
 
-    //todo
     get = (sid, callback) => {
         try {
             console.log('=========================');
@@ -27,12 +26,42 @@ export class Storage extends Store {
         }
     };
 
+    destroy = (sid, callback) => {
+        try {
+            console.log('DEEEESTROOOOY');
+            this.sessions = this.sessions.map((session) => session.sid !== sid);
+            callback(null);
+        } catch (error) {
+            callback(error);
+        }
+    }
+
+    all = (callback) => {
+        try {
+            const sessions = this.sessions.map((session) => session.session);
+            callback(null, sessions);
+        } catch (error) {
+            callback(error, null);
+        }
+    }
+
+    clear = (callback) => {
+        try {
+            this.sessions = [];
+            callback(null);
+        } catch (error) {
+            callback(error);
+        }
+    }
+
     set = (sid, sess, callback) => {
         try {
             console.log(JSON.stringify('aaaatatataat'));
             const { cookie, user, agent} = sess;
 
             console.log(JSON.stringify(cookie));
+
+
             //NOT SURE THAT THIS VERIFICATION IS OK
             if (!user.email) {
                 throw new NotFoundError('Could not find email in payload');
@@ -50,11 +79,10 @@ export class Storage extends Store {
                 session: sess,
             });
             console.log(JSON.stringify(this.sessions));
+            callback(null);
         } catch (error) {
             callback(error);
         }
-
-        callback(null);
     };
 }
 
