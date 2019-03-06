@@ -9,11 +9,7 @@ export class Storage extends Store {
 
     get = (sid, callback) => {
         try {
-            console.log('=========================');
-            console.log(sid);
             this.sessions.forEach((session) => {
-                console.log('ssssssss');
-                console.log(session.sid);
                 if (session.sid === sid) {
                     callback(null, session.session);
                 }
@@ -28,7 +24,6 @@ export class Storage extends Store {
 
     destroy = (sid, callback) => {
         try {
-            console.log('DEEEESTROOOOY');
             this.sessions = this.sessions.map((session) => session.sid !== sid);
             callback(null);
         } catch (error) {
@@ -36,31 +31,25 @@ export class Storage extends Store {
         }
     }
 
-    all = (callback) => {
+    getAll = () => {
         try {
-            const sessions = this.sessions.map((session) => session.session);
-            callback(null, sessions);
+            return this.sessions;
         } catch (error) {
-            callback(error, null);
+            throw error;
         }
     }
 
-    clear = (callback) => {
+    destroyAll = () => {
         try {
             this.sessions = [];
-            callback(null);
         } catch (error) {
-            callback(error);
+            throw error;
         }
     }
 
     set = (sid, sess, callback) => {
         try {
-            console.log(JSON.stringify('aaaatatataat'));
             const { cookie, user, agent} = sess;
-
-            console.log(JSON.stringify(cookie));
-
 
             //NOT SURE THAT THIS VERIFICATION IS OK
             if (!user.email) {
@@ -78,7 +67,6 @@ export class Storage extends Store {
                 payload: sessionObj,
                 session: sess,
             });
-            console.log(JSON.stringify(this.sessions));
             callback(null);
         } catch (error) {
             callback(error);

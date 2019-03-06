@@ -1,11 +1,11 @@
 // Core
 import debug from 'debug';
 
-export const get = (req, res) => {
+export const del = (req, res) => {
     debug(`${req.method} — ${req.originalUrl}`);
     try {
-        const sessions = req.sessionStore.getAll();
-        res.status(200).json(sessions);
+        req.sessionStore.destroyAll();
+        res.sendStatus(204);
     } catch (error) {
         res.status(401).json({ message: error.message });
     }
