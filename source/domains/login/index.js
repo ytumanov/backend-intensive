@@ -9,17 +9,7 @@ export const post = (req, res) => {
         const passwordDecoded = Buffer.from(password, 'base64').toString();
 
         req.session.user = { email: emailDecoded };
-        const sessionObj = {
-            payload: req.session.user,
-            agent:   req.get('User-Agent'),
-            start:   req.session.originalMaxAge,
-            end:     req.session.expires,
-
-        };
-
-        req.session.store.set(req.sessionID, sessionObj, () => {
-            console.log('Dooone');
-        });
+        req.session.agent = req.get('User-Agent');
 
         res.sendStatus(204);
     } catch (error) {
