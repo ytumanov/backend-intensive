@@ -1,7 +1,6 @@
 // Core
 import express from 'express';
 import session from 'express-session';
-import { Storage } from './helpers/storage';
 
 // Routes
 import * as domains from './domains';
@@ -13,23 +12,22 @@ import {
     notFoundLogger,
     validationLogger,
     requireJsonContent,
+    getPassword,
     NotFoundError,
-    getSecretSession,
 } from './helpers';
 
 const app = express();
 
 const sessionOptions = {
-    key:               'user', // cookie name
-    secret:            getSecretSession(), // change to your password
-    resave:            false, // disable session resave
-    rolling:           true, // reset max age on every use
+    key:               'user',
+    secret:            getPassword(),
+    resave:            false,
+    rolling:           true,
     saveUninitialized: false,
     cookie:            {
         httpOnly: true,
         maxAge:   15 * 60 * 1000,
     },
-    store: new Storage(),
 };
 
 app.use(
@@ -37,7 +35,7 @@ app.use(
         limit: '10kb',
     }),
 );
-
+app.use(session(sessionOptions));
 app.use(requireJsonContent);
 
 if (process.env.NODE_ENV === 'development') {
@@ -50,11 +48,7 @@ if (process.env.NODE_ENV === 'development') {
     });
 }
 
-app.use(session(sessionOptions));
-
-app.use('/api/auth/login', domains.login);
-app.use('/api/auth/list', domains.list);
-app.use('/api/auth/clear', domains.clear);
+app.use('/api/auth', domains.auth);
 app.use('/api/teachers', domains.teachers);
 app.use('/api/pupils', domains.pupils);
 app.use('/api/parents', domains.parents);
