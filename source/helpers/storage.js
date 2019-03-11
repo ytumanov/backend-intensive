@@ -9,14 +9,14 @@ export class Storage extends Store {
 
     get = (sid, callback) => {
         try {
+            let sess;
             this.sessions.forEach((session) => {
                 if (session.sid === sid) {
-                    callback(null, session.session);
+                    sess = session.session;
                 }
             });
 
-
-            callback(null, null);
+            sess ? callback(null, sess) : callback(null, null);
         } catch (error) {
             callback(error, null);
         }

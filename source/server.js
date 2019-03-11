@@ -52,9 +52,7 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use(session(sessionOptions));
 
-app.use('/api/auth/login', domains.login);
-app.use('/api/auth/list', domains.list);
-app.use('/api/auth/clear', domains.clear);
+app.use('/api/auth', domains.auth);
 app.use('/api/teachers', domains.teachers);
 app.use('/api/pupils', domains.pupils);
 app.use('/api/parents', domains.parents);
