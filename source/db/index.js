@@ -16,7 +16,7 @@ const mongooseOptions = {
 };
 
 // mongodb://username:password@localhost:27017/users
-const connection = mongoose.connect('mongodb://localhost:27017/school', mongooseOptions);
+const connection = mongoose.connect('mongodb://18.195.151.104:27017/school', mongooseOptions);
 
 connection
     .then(() => {
