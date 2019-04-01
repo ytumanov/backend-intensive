@@ -8,7 +8,7 @@ const schema = new mongoose.Schema({
         last:  String,
     },
     image:       String,
-    dateOfBirth: mongoose.Schema.Types.Date,
+    dateOfBirth: Date,
     emails:      [
         {
             email: {
@@ -33,13 +33,15 @@ const schema = new mongoose.Schema({
     },
     subjects: [
         {
-            subject: mongoose.Schema.Types.ObjectId,
+            subject: mongoose.SchemaTypes.ObjectId,
         },
     ],
     description: String,
-    started:     mongoose.Schema.Types.Date,
-    created:     mongoose.Schema.Types.Date,
+    started:     Date,
+    created:     Date,
 });
+
+schema.index({ 'name.first': 1, 'name.last': 1 });
 
 // Collection
 export const teachers = mongoose.model('teachers', schema);

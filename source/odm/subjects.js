@@ -1,4 +1,3 @@
-
 import mongoose from 'mongoose';
 
 // Document shape
@@ -8,11 +7,11 @@ const schema = new mongoose.Schema({
     image:   String,
     seasons: [
         {
-            season: mongoose.Schema.Types.ObjectId,
+            season: mongoose.SchemaTypes.ObjectId,
         },
     ],
     description: String,
-    created:     mongoose.Schema.Types.Date,
+    created:     Date,
 });
 
 schema.index({ title: 'text', description: 'text' });

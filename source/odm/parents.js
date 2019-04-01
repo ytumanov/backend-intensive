@@ -1,4 +1,3 @@
-
 import mongoose from 'mongoose';
 
 // Document shape
@@ -9,20 +8,20 @@ const schema = new mongoose.Schema({
         last:  String,
     },
     image:       String,
-    dateOfBirth: mongoose.Schema.Types.Date,
+    dateOfBirth: Date,
     emails:      [
         {
             email: {
                 type:   String,
                 unique: true,
             },
-            primary: mongoose.Schema.Types.Boolean,
+            primary: Boolean,
         },
     ],
     phones: [
         {
             phone:   String,
-            primary: mongoose.Schema.Types.Boolean,
+            primary: Boolean,
         },
     ],
     sex:    String,
@@ -34,14 +33,14 @@ const schema = new mongoose.Schema({
     },
     pupils: [
         {
-            person: mongoose.Schema.Types.ObjectId,
+            person: mongoose.SchemaTypes.ObjectId,
         },
     ],
     description: String,
-    created:     mongoose.Schema.Types.Date,
+    created:     Date,
 });
 
-schema.index({ 'name.first': 1, 'name.last': -1 }, { name: 'flNames' });
+schema.index({ 'name.first': 1, 'name.last': 1 });
 
 // Collection
 export const parents = mongoose.model('parents', schema);
