@@ -11,8 +11,8 @@ const schema = new mongoose.Schema({
         },
     ],
     description: String,
-    created:     Date,
-});
+},
+{ timestamps: { createdAt: 'created', updatedAt: 'modified' } });
 
 schema.index({ title: 'text', description: 'text' });
 

@@ -11,8 +11,8 @@ const schema = new mongoose.Schema({
     image:   String,
     subject: mongoose.SchemaTypes.ObjectId,
     season:  mongoose.SchemaTypes.ObjectId,
-    created: Date,
-});
+},
+{ timestamps: { createdAt: 'created', updatedAt: 'modified' } });
 
 schema.index({ 'name.first': 1, 'name.last': 1 });
 

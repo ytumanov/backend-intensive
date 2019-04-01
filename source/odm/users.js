@@ -10,7 +10,8 @@ const schema = new mongoose.Schema({
     password: {
         type: String,
     },
-});
+},
+{ timestamps: { createdAt: 'created', updatedAt: 'modified' } });
 
 // Collection
 export const users = mongoose.model('users', schema);

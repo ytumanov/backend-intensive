@@ -39,8 +39,8 @@ const schema = new mongoose.Schema({
     ],
     description: String,
     started:     Date,
-    created:     Date,
-});
+},
+{ timestamps: { createdAt: 'created', updatedAt: 'modified' } });
 
 schema.index({ 'name.first': 1, 'name.last': 1 });
 
