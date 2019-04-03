@@ -3,11 +3,15 @@ import dg from 'debug';
 
 const debug = dg('router:subjects:seasons');
 
-export const get = (req, res) => {
+// Instruments
+import { Seasons } from '../../../controllers';
+
+export const get = async (req, res) => {
     debug(`${req.method} — ${req.originalUrl}`);
 
     try {
-        const data = [];
+        const seasons = new Seasons();
+        const data = await seasons.find();
 
         res.status(200).json({ data });
     } catch (error) {
@@ -15,11 +19,12 @@ export const get = (req, res) => {
     }
 };
 
-export const post = (req, res) => {
+export const post = async (req, res) => {
     debug(`${req.method} — ${req.originalUrl}`);
 
     try {
-        const data = [];
+        const seasons = new Seasons();
+        const data = await seasons.create();
 
         res.status(200).json({ data });
     } catch (error) {
