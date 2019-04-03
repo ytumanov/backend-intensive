@@ -8,7 +8,6 @@ export class Users {
     }
 
     async register() {
-        // this.models.users.validate();
         const data = await this.models.users.register();
 
         return data;

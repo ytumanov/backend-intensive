@@ -8,13 +8,14 @@ export default {
                     type:      'string',
                     minLength: 5,
                 },
+                last: {
+                    type:      'string',
+                    minLength: 5,
+                },
             },
             required: [ 'first' ],
         },
-        address: {
-            type: 'string',
-        },
     },
-    required:             [ 'name', 'address' ],
+    required:             [ 'name' ],
     additionalProperties: false,
 };
