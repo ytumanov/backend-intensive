@@ -19,7 +19,11 @@ export class Classes {
     }
 
     async find() {
-        const data = await classes.find().lean();
+        const data = await classes
+            .find()
+            .populate({ path: 'classes', select: '-_id -__v' })
+            .select('-_id -__v')
+            .lean();
 
         return data;
     }

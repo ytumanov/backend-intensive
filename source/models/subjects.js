@@ -10,7 +10,11 @@ export class Subjects {
 
     async findSeason() {
         const { id } = this.data;
-        const data = await seasons.find({ subject: id }).lean();
+        const data = await seasons
+            .find({ subject: id })
+            .populate({ path: 'seasons.season', select: '-_id -__v' })
+            .select('-_id -__v')
+            .lean();
 
         return data;
     }
@@ -32,6 +36,8 @@ export class Subjects {
                 subject: subjectsId,
                 season:  seasonId,
             })
+            .populate({ path: 'lessons.lesson', select: '-_id -__v' })
+            .select('-_id -__v')
             .lean();
 
         return data;

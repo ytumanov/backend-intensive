@@ -20,10 +20,12 @@ const schema = new mongoose.Schema(
         image:   String,
         subject: {
             type:     mongoose.SchemaTypes.ObjectId,
+            ref:      'subjects',
             required: true,
         },
         season: {
             type:     mongoose.SchemaTypes.ObjectId,
+            ref:      'seasons',
             required: true,
         },
     },

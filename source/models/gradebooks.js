@@ -19,7 +19,11 @@ export class Gradebooks {
     }
 
     async find() {
-        const data = await gradebooks.find().lean();
+        const data = await gradebooks
+            .find()
+            .populate({ path: 'gradebooks', select: '-_id -__v' })
+            .select('-_id -__v')
+            .lean();
 
         return data;
     }

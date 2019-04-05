@@ -10,7 +10,11 @@ export class Parents {
     }
 
     async findAllPupils() {
-        const data = await parents.find().lean();
+        const data = await parents
+            .find()
+            .populate({ path: 'pupils', select: '-_id -__v' })
+            .select('-_id -__v')
+            .lean();
 
         return data;
     }
