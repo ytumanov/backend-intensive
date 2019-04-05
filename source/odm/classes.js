@@ -27,7 +27,10 @@ const schema = new mongoose.Schema(
         floor:      Number,
         gradebooks: [
             {
-                gradebook: mongoose.SchemaTypes.ObjectId,
+                gradebook: {
+                    type: mongoose.SchemaTypes.ObjectId,
+                    ref:  'gradebooks',
+                },
             },
         ],
         description: String,

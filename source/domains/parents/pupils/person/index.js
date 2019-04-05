@@ -26,6 +26,7 @@ export const post = (req, res) => {
         res.status(400).json({ message: error.message });
     }
 };
+
 export const put = (req, res) => {
     debug(`${req.method} — ${req.originalUrl}`);
 

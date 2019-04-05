@@ -1,13 +1,17 @@
 // Core
 import dg from 'debug';
 
+// Instruments
+import { Gradebooks } from '../../../controllers';
+
 const debug = dg('router:classes:gradebook');
 
-export const get = (req, res) => {
+export const get = async (req, res) => {
     debug(`${req.method} — ${req.originalUrl}`);
 
     try {
-        const data = {};
+        const gradebooks = new Gradebooks();
+        const data = await gradebooks.find();
 
         res.status(200).json({ data });
     } catch (error) {
@@ -15,11 +19,12 @@ export const get = (req, res) => {
     }
 };
 
-export const post = (req, res) => {
+export const post = async (req, res) => {
     debug(`${req.method} — ${req.originalUrl}`);
 
     try {
-        const data = {};
+        const gradebooks = new Gradebooks(req.body);
+        const data = await gradebooks.create();
 
         res.status(200).json({ data });
     } catch (error) {

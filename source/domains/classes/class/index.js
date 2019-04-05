@@ -1,17 +1,18 @@
 // Core
 import dg from 'debug';
 
-const debug = dg('router:classes:class');
-
 // Instruments
-import { Class } from '../../../controllers';
+import { Classes } from '../../../controllers';
+
+const debug = dg('router:classes:class');
 
 export const get = async (req, res) => {
     debug(`${req.method} — ${req.originalUrl}`);
 
     try {
-        const classInstance = new Class(null, req.params);
-        const data = await classInstance.find();
+        const { classId: id } = req.params;
+        const classes = new Classes({ id });
+        const data = await classes.findById();
 
         res.status(200).json({ data });
     } catch (error) {
@@ -23,8 +24,10 @@ export const post = async (req, res) => {
     debug(`${req.method} — ${req.originalUrl}`);
 
     try {
-        const classInstance = new Class(req.body, req.params);
-        const data = await classInstance.create();
+        const { classId: id } = req.params;
+        const { gradebook } = req.body;
+        const classes = new Classes({ id, gradebook });
+        const data = await classes.createByClassId();
 
         res.status(200).json({ data });
     } catch (error) {
@@ -32,12 +35,11 @@ export const post = async (req, res) => {
     }
 };
 
-export const put = async (req, res) => {
+export const put = (req, res) => {
     debug(`${req.method} — ${req.originalUrl}`);
 
     try {
-        const classInstance = new Class(req.body, req.params);
-        const data = await classInstance.update();
+        const data = {};
 
         res.status(200).json({ data });
     } catch (error) {
@@ -45,13 +47,10 @@ export const put = async (req, res) => {
     }
 };
 
-export const remove = async (req, res) => {
+export const remove = (req, res) => {
     debug(`${req.method} — ${req.originalUrl}`);
 
     try {
-        const classInstance = new Class(null, req.params);
-        await classInstance.delete();
-
         res.sendStatus(204);
     } catch (error) {
         res.status(400).json({ message: error.message });

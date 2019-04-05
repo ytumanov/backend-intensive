@@ -18,7 +18,10 @@ const schema = new mongoose.Schema(
             unique:   true,
         },
         image:   String,
-        subject: mongoose.SchemaTypes.ObjectId,
+        subject: {
+            type:     mongoose.SchemaTypes.ObjectId,
+            required: true,
+        },
         lessons: [
             {
                 lesson: mongoose.SchemaTypes.ObjectId,

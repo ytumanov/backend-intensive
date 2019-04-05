@@ -1,10 +1,10 @@
 // Core
 import dg from 'debug';
 
-const debug = dg('router:classes');
-
 // Instruments
 import { Classes } from '../../controllers';
+
+const debug = dg('router:classes');
 
 export const get = async (req, res) => {
     debug(`${req.method} — ${req.originalUrl}`);

@@ -7,14 +7,26 @@ export class Classes {
         };
     }
 
+    async create() {
+        const data = await this.models.classes.create();
+
+        return data;
+    }
+
     async find() {
         const data = await this.models.classes.find();
 
         return data;
     }
 
-    async create() {
-        const data = await this.models.classes.create();
+    async findById() {
+        const data = await this.models.classes.findById();
+
+        return data;
+    }
+
+    async assignGradebook() {
+        const data = await this.models.classes.assignGradebook();
 
         return data;
     }

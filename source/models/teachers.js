@@ -9,7 +9,7 @@ export class Teachers {
     }
 
     async find() {
-        const data = await teachers.find();
+        const data = await teachers.find().lean();
 
         return data;
     }

@@ -1,16 +1,18 @@
+// Core
 import dg from 'debug';
 
-const debug = dg('router:subjects:lessons');
-
 // Instruments
-import { Lessons } from '../../../../controllers';
+import { Subjects } from '../../../../controllers';
+
+const debug = dg('router:subjects:lessons');
 
 export const get = async (req, res) => {
     debug(`${req.method} — ${req.originalUrl}`);
 
     try {
-        const lessons = new Lessons();
-        const data = await lessons.find();
+        const { subjectsId, seasonId } = req.params;
+        const subjects = new Subjects({ subjectsId, seasonId });
+        const data = await subjects.findLesson();
 
         res.status(200).json({ data });
     } catch (error) {
@@ -22,8 +24,13 @@ export const post = async (req, res) => {
     debug(`${req.method} — ${req.originalUrl}`);
 
     try {
-        const lessons = new Lessons();
-        const data = await lessons.create();
+        const { subjectsId, seasonId } = req.params;
+        const subjects = new Subjects({
+            subject: subjectsId,
+            season:  seasonId,
+            ...req.body,
+        });
+        const data = await subjects.findLesson();
 
         res.status(200).json({ data });
     } catch (error) {

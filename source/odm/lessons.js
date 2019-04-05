@@ -18,8 +18,14 @@ const schema = new mongoose.Schema(
             unique:   true,
         },
         image:   String,
-        subject: mongoose.SchemaTypes.ObjectId,
-        season:  mongoose.SchemaTypes.ObjectId,
+        subject: {
+            type:     mongoose.SchemaTypes.ObjectId,
+            required: true,
+        },
+        season: {
+            type:     mongoose.SchemaTypes.ObjectId,
+            required: true,
+        },
     },
     {
         timestamps: {
